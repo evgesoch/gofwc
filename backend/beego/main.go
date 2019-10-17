@@ -1,19 +1,19 @@
 package main
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/evgesoch/gofwc/backend/beego/models"
 
 	_ "github.com/evgesoch/gofwc/backend/beego/routers"
 )
 
 func main() {
+	// Open the main database
+	models.OpenDB()
 
-	// Create the main database
-	models.CreateDB()
-
-	/*if beego.BConfig.RunMode == "dev" {
+	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
-	beego.Run()*/
+	beego.Run()
 }
