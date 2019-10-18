@@ -40,7 +40,7 @@ func CloseDB() {
 // Create the database
 func CreateDB() {
 	db, _ = sql.Open("sqlite3", "./backend/beego/models/maindb.db")
-	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, text TEXT)")
+	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)")
 	statement.Exec()
 	db.Close()
 }
@@ -72,17 +72,20 @@ func GetAllPosts() ([]*Post, error) {
 }
 
 // Get a Post from the database
-func GetPostByID(postID int) (*Post, error) {
-	fetchedPost, err := db.Query("SELECT id, text FROM posts WHERE id=" + string(postID))
+func GetPostByID(id int) (*Post, error) {
+	fetchedPost, err := db.Query("SELECT id, text FROM posts WHERE id=?", id)
 	if err != nil {
 		return nil, err
 	}
 	defer fetchedPost.Close()
 
 	post := new(Post)
-	err = fetchedPost.Scan(&post.ID, &post.Text)
-	if err != nil {
-		return nil, err
+
+	for fetchedPost.Next() {
+		err = fetchedPost.Scan(&post.ID, &post.Text)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	if err := fetchedPost.Err(); err != nil {
@@ -93,35 +96,39 @@ func GetPostByID(postID int) (*Post, error) {
 }
 
 // Create a new Post in the database
-func CreatePost(id int, text string) (int, error) {
-	newPost, err := db.Query("INSERT INTO posts (id, text) VALUES (?, ?)", id, text)
+func CreatePost(text string) (int64, error) {
+	prstmt, err := db.Prepare("INSERT INTO posts (text) VALUES (?)")
 	if err != nil {
+		log.Fatal(err)
 		return 0, err
 	}
-	defer newPost.Close()
 
-	post := new(Post)
-	err = newPost.Scan(&post.ID)
+	result, err := prstmt.Exec(text)
 	if err != nil {
+		log.Fatal(err)
 		return 0, err
 	}
 
-	if err := newPost.Err(); err != nil {
+	lastID, err := result.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
 		return 0, err
 	}
 
-	return post.ID, nil
+	return lastID, nil
 }
 
 // Update a Post in the database
 func UpdatePostByID(id int, text string) error {
-	updatedPost, err := db.Query("UPDATE posts SET text=" + text + " WHERE id=" + string(id))
+	prstmt, err := db.Prepare("UPDATE posts SET text=? WHERE id=?")
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
-	defer updatedPost.Close()
 
-	if err := updatedPost.Err(); err != nil {
+	_, err = prstmt.Exec(text, id)
+	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 
@@ -130,13 +137,15 @@ func UpdatePostByID(id int, text string) error {
 
 // Delete a Post from the database
 func DeletePostByID(id int) error {
-	deletedPost, err := db.Query("DELETE FROM posts WHERE id=" + string(id))
+	prstmt, err := db.Prepare("DELETE FROM posts WHERE id=?")
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
-	defer deletedPost.Close()
 
-	if err := deletedPost.Err(); err != nil {
+	_, err = prstmt.Exec(id)
+	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 
