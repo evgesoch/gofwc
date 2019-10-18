@@ -1,17 +1,21 @@
 package main
 
 import (
-	"github.com/evgesoch/gofwc/backend/beego/models"
+	"github.com/astaxie/beego"
 
 	_ "github.com/evgesoch/gofwc/backend/beego/routers"
 )
 
 func main() {
+	// Run the application
+	if beego.BConfig.RunMode == "dev" {
+		beego.BConfig.WebConfig.DirectoryIndex = true
+		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
+	}
+	beego.Run()
 
+	//Create a db
 	//models.CreateDB()
-
-	//Open the main database
-	models.OpenDB()
 
 	// Create a Post
 	/*a, err := models.CreatePost("hi 25th text")
@@ -50,12 +54,4 @@ func main() {
 
 	/*c, _ := models.GetPostByID(1)
 	fmt.Println("A Post: ", c)*/
-
-	models.CloseDB()
-
-	/*if beego.BConfig.RunMode == "dev" {
-		beego.BConfig.WebConfig.DirectoryIndex = true
-		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-	}
-	beego.Run()*/
 }

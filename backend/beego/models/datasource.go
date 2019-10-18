@@ -16,7 +16,7 @@ type Post struct {
 var (
 	db             *sql.DB
 	driver         = "sqlite3"
-	datasourceName = "./backend/beego/models/maindb.db"
+	datasourceName = "C:/Users/Evgenios/go/src/github.com/evgesoch/gofwc/backend/beego/models/maindb.db"
 )
 
 // Open the database
@@ -47,10 +47,14 @@ func CreateDB() {
 
 // Get all Posts from the database
 func GetAllPosts() ([]*Post, error) {
+	OpenDB()
+
 	allPosts, err := db.Query("SELECT * FROM posts ORDER BY id DESC")
 	if err != nil {
+		log.Fatal(err)
 		return nil, err
 	}
+	defer CloseDB()
 	defer allPosts.Close()
 
 	posts := make([]*Post, 0)
@@ -59,12 +63,14 @@ func GetAllPosts() ([]*Post, error) {
 		post := new(Post)
 		err := allPosts.Scan(&post.ID, &post.Text)
 		if err != nil {
+			log.Fatal(err)
 			return nil, err
 		}
 		posts = append(posts, post)
 	}
 
 	if err := allPosts.Err(); err != nil {
+		log.Fatal(err)
 		return nil, err
 	}
 
@@ -73,10 +79,14 @@ func GetAllPosts() ([]*Post, error) {
 
 // Get a Post from the database
 func GetPostByID(id int) (*Post, error) {
+	OpenDB()
+
 	fetchedPost, err := db.Query("SELECT id, text FROM posts WHERE id=?", id)
 	if err != nil {
+		log.Fatal(err)
 		return nil, err
 	}
+	defer CloseDB()
 	defer fetchedPost.Close()
 
 	post := new(Post)
@@ -84,11 +94,13 @@ func GetPostByID(id int) (*Post, error) {
 	for fetchedPost.Next() {
 		err = fetchedPost.Scan(&post.ID, &post.Text)
 		if err != nil {
+			log.Fatal(err)
 			return nil, err
 		}
 	}
 
 	if err := fetchedPost.Err(); err != nil {
+		log.Fatal(err)
 		return nil, err
 	}
 
@@ -97,6 +109,8 @@ func GetPostByID(id int) (*Post, error) {
 
 // Create a new Post in the database
 func CreatePost(text string) (int64, error) {
+	OpenDB()
+
 	prstmt, err := db.Prepare("INSERT INTO posts (text) VALUES (?)")
 	if err != nil {
 		log.Fatal(err)
@@ -115,11 +129,15 @@ func CreatePost(text string) (int64, error) {
 		return 0, err
 	}
 
+	defer CloseDB()
+
 	return lastID, nil
 }
 
 // Update a Post in the database
 func UpdatePostByID(id int, text string) error {
+	OpenDB()
+
 	prstmt, err := db.Prepare("UPDATE posts SET text=? WHERE id=?")
 	if err != nil {
 		log.Fatal(err)
@@ -132,11 +150,15 @@ func UpdatePostByID(id int, text string) error {
 		return err
 	}
 
+	defer CloseDB()
+
 	return nil
 }
 
 // Delete a Post from the database
 func DeletePostByID(id int) error {
+	OpenDB()
+
 	prstmt, err := db.Prepare("DELETE FROM posts WHERE id=?")
 	if err != nil {
 		log.Fatal(err)
@@ -148,6 +170,8 @@ func DeletePostByID(id int) error {
 		log.Fatal(err)
 		return err
 	}
+
+	defer CloseDB()
 
 	return nil
 }

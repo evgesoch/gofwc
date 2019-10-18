@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"github.com/evgesoch/gofwc/backend/beego/models"
 	"encoding/json"
 
 	"github.com/astaxie/beego"
+	"github.com/evgesoch/gofwc/backend/beego/models"
 )
 
 // Operations about object
@@ -89,4 +89,3 @@ func (o *ObjectController) Delete() {
 	o.Data["json"] = "delete success!"
 	o.ServeJSON()
 }
-
