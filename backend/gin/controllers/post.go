@@ -74,13 +74,90 @@ func CreatePost() func(c *gin.Context) {
 // Update a Post
 func UpdatePost() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		postID, err := strconv.Atoi(c.Params.ByName("postID"))
+		if err != nil {
+			c.String(http.StatusBadRequest, "PostController(Put): Can't convert URI postID param to int.")
+			log.Println(err)
+			return
+		}
 
+		// Check if post to update doesn't exist
+		allPosts, err := ginModels.GetAllPosts()
+		if err != nil {
+			c.String(http.StatusInternalServerError, "PostController(GetAll): Database error, can't fetch posts.")
+			log.Println(err)
+			return
+		}
+		if check := checkIfPostExists(postID, allPosts); !check {
+			c.String(http.StatusBadRequest, "PostController(Put): This post doesn't exist.")
+			return
+		}
+
+		newPost := new(ginModels.Post)
+
+		if err := c.ShouldBindJSON(&newPost); err != nil {
+			c.String(http.StatusBadRequest, "PostController(Put): Cannot parse JSON request body.")
+			log.Println(err)
+			return
+		}
+
+		err = ginModels.UpdatePostByID(postID, newPost.Text)
+		if err != nil {
+			c.String(http.StatusInternalServerError, "PostController(Put): Database error, can't update the post.")
+			log.Println(err)
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"post_updated": "yes"})
 	}
 }
 
 // Delete a Post
 func DeletePost() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		postID, err := strconv.Atoi(c.Params.ByName("postID"))
+		if err != nil {
+			c.String(http.StatusBadRequest, "PostController(Delete): Can't convert URI postID param to int.")
+			log.Println(err)
+			return
+		}
 
+		// Check if post to delete doesn't exist
+		allPosts, err := ginModels.GetAllPosts()
+		if err != nil {
+			c.String(http.StatusInternalServerError, "PostController(GetAll): Database error, can't fetch posts.")
+			log.Println(err)
+			return
+		}
+		if check := checkIfPostExists(postID, allPosts); !check {
+			c.String(http.StatusBadRequest, "PostController(Delete): This post doesn't exist.")
+			return
+		}
+
+		err = ginModels.DeletePostByID(postID)
+		if err != nil {
+			c.String(http.StatusInternalServerError, "PostController(Delete): Database error, can't update the post.")
+			log.Println(err)
+			return
+		}
+
+		c.JSON(http.StatusNoContent, gin.H{"post_updated": "yes"})
 	}
+}
+
+// Check if a Post exists in the database by ID
+func checkIfPostExists(postID int, postsSlice []*ginModels.Post) bool {
+	arr := make([]int, 0)
+
+	for _, v := range postsSlice {
+		arr = append(arr, v.ID)
+	}
+
+	for _, v := range arr {
+		if postID == v {
+			return true
+		}
+	}
+
+	return false
 }
