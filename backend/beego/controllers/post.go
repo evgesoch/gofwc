@@ -116,7 +116,7 @@ func (pc *PostController) Put() {
 	// Check if post to update doesn't exist
 	allPosts, err := models.GetAllPosts()
 	if err != nil {
-		pc.Ctx.Output.SetStatus(400)
+		pc.Ctx.Output.SetStatus(500)
 		pc.Ctx.Output.Body([]byte("PostController(GetAll): Database error, can't fetch posts."))
 		log.Println(err)
 		return
@@ -170,7 +170,7 @@ func (pc *PostController) Delete() {
 	// Check if post to delete doesn't exist
 	allPosts, err := models.GetAllPosts()
 	if err != nil {
-		pc.Ctx.Output.SetStatus(400)
+		pc.Ctx.Output.SetStatus(500)
 		pc.Ctx.Output.Body([]byte("PostController(GetAll): Database error, can't fetch posts."))
 		log.Println(err)
 		return
