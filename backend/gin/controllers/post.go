@@ -136,12 +136,12 @@ func DeletePost() func(c *gin.Context) {
 
 		err = ginModels.DeletePostByID(postID)
 		if err != nil {
-			c.String(http.StatusInternalServerError, "PostController(Delete): Database error, can't update the post.")
+			c.String(http.StatusInternalServerError, "PostController(Delete): Database error, can't delete the post.")
 			log.Println(err)
 			return
 		}
 
-		c.JSON(http.StatusNoContent, gin.H{"post_updated": "yes"})
+		c.JSON(http.StatusNoContent, gin.H{"post_deleted": "yes"})
 	}
 }
 

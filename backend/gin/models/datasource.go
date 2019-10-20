@@ -16,7 +16,7 @@ type Post struct {
 var (
 	db             *sql.DB
 	driver         = "sqlite3"
-	datasourceName = "C:/Users/Evgenios/go/src/github.com/evgesoch/gofwc/backend/gin/models/maindb.db"
+	datasourceName = "C:/Users/Evgenios/go/src/github.com/evgesoch/gofwc/backend/maindb.db"
 )
 
 // Open the database
@@ -39,7 +39,7 @@ func CloseDB() {
 
 // Create the database
 func CreateDB() {
-	db, _ = sql.Open("sqlite3", "./backend/gin/models/maindb.db")
+	db, _ = sql.Open("sqlite3", "./backend/maindb.db")
 	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)")
 	statement.Exec()
 	db.Close()
