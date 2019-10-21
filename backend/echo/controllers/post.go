@@ -38,7 +38,7 @@ func GetPost() func(c echo.Context) error {
 		}
 
 		if post.ID == 0 {
-			return c.String(http.StatusBadRequest, "PostController(Get): This Post doesn't exist in the database.")
+			return c.String(http.StatusNotFound, "PostController(Get): This Post doesn't exist in the database.")
 		}
 
 		return c.JSON(http.StatusOK, post)
@@ -83,7 +83,7 @@ func UpdatePost() func(c echo.Context) error {
 			return c.String(http.StatusInternalServerError, "PostController(GetAll): Database error, can't fetch posts.")
 		}
 		if check := checkIfPostExists(postID, allPosts); !check {
-			return c.String(http.StatusBadRequest, "PostController(Put): This post doesn't exist.")
+			return c.String(http.StatusNotFound, "PostController(Put): This post doesn't exist.")
 		}
 
 		newPost := new(echoModels.Post)
@@ -93,8 +93,7 @@ func UpdatePost() func(c echo.Context) error {
 			return c.String(http.StatusBadRequest, "PostController(Put): Cannot parse JSON request body.")
 		}
 
-		err = echoModels.UpdatePostByID(postID, newPost.Text)
-		if err != nil {
+		if err := echoModels.UpdatePostByID(postID, newPost.Text); err != nil {
 			log.Println(err)
 			return c.String(http.StatusInternalServerError, "PostController(Put): Database error, can't update the post.")
 		}
@@ -121,11 +120,10 @@ func DeletePost() func(c echo.Context) error {
 			return c.String(http.StatusInternalServerError, "PostController(GetAll): Database error, can't fetch posts.")
 		}
 		if check := checkIfPostExists(postID, allPosts); !check {
-			return c.String(http.StatusBadRequest, "PostController(Delete): This post doesn't exist.")
+			return c.String(http.StatusNotFound, "PostController(Delete): This post doesn't exist.")
 		}
 
-		err = echoModels.DeletePostByID(postID)
-		if err != nil {
+		if err := echoModels.DeletePostByID(postID); err != nil {
 			log.Println(err)
 			return c.String(http.StatusInternalServerError, "PostController(Delete): Database error, can't delete the post.")
 		}

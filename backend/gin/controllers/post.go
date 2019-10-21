@@ -41,7 +41,7 @@ func GetPost() func(c *gin.Context) {
 		}
 
 		if post.ID == 0 {
-			c.String(http.StatusBadRequest, "PostController(Get): This Post doesn't exist in the database.")
+			c.String(http.StatusNotFound, "PostController(Get): This Post doesn't exist in the database.")
 			return
 		}
 
@@ -89,7 +89,7 @@ func UpdatePost() func(c *gin.Context) {
 			return
 		}
 		if check := checkIfPostExists(postID, allPosts); !check {
-			c.String(http.StatusBadRequest, "PostController(Put): This post doesn't exist.")
+			c.String(http.StatusNotFound, "PostController(Put): This post doesn't exist.")
 			return
 		}
 
@@ -101,8 +101,7 @@ func UpdatePost() func(c *gin.Context) {
 			return
 		}
 
-		err = ginModels.UpdatePostByID(postID, newPost.Text)
-		if err != nil {
+		if err := ginModels.UpdatePostByID(postID, newPost.Text); err != nil {
 			c.String(http.StatusInternalServerError, "PostController(Put): Database error, can't update the post.")
 			log.Println(err)
 			return
@@ -130,12 +129,11 @@ func DeletePost() func(c *gin.Context) {
 			return
 		}
 		if check := checkIfPostExists(postID, allPosts); !check {
-			c.String(http.StatusBadRequest, "PostController(Delete): This post doesn't exist.")
+			c.String(http.StatusNotFound, "PostController(Delete): This post doesn't exist.")
 			return
 		}
 
-		err = ginModels.DeletePostByID(postID)
-		if err != nil {
+		if err := ginModels.DeletePostByID(postID); err != nil {
 			c.String(http.StatusInternalServerError, "PostController(Delete): Database error, can't delete the post.")
 			log.Println(err)
 			return

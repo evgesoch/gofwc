@@ -122,7 +122,7 @@ func (pc *PostController) Put() {
 		return
 	}
 	if check := checkIfPostExists(postID, allPosts); !check {
-		pc.Ctx.Output.SetStatus(400)
+		pc.Ctx.Output.SetStatus(404)
 		pc.Ctx.Output.Body([]byte("PostController(Put): This post doesn't exist."))
 		return
 	}
@@ -138,8 +138,7 @@ func (pc *PostController) Put() {
 		return
 	}
 
-	err = models.UpdatePostByID(postID, postText)
-	if err != nil {
+	if err := models.UpdatePostByID(postID, postText); err != nil {
 		pc.Ctx.Output.SetStatus(500)
 		pc.Ctx.Output.Body([]byte("PostController(Put): Database error, can't update the post."))
 		log.Println(err)
@@ -176,13 +175,12 @@ func (pc *PostController) Delete() {
 		return
 	}
 	if check := checkIfPostExists(postID, allPosts); !check {
-		pc.Ctx.Output.SetStatus(400)
+		pc.Ctx.Output.SetStatus(404)
 		pc.Ctx.Output.Body([]byte("PostController(Delete): This post doesn't exist."))
 		return
 	}
 
-	err = models.DeletePostByID(postID)
-	if err != nil {
+	if err := models.DeletePostByID(postID); err != nil {
 		pc.Ctx.Output.SetStatus(500)
 		pc.Ctx.Output.Body([]byte("PostController(Delete): Database error, can't delete the post."))
 		log.Println(err)
