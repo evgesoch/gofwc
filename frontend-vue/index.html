@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="./dependencies/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <script src="./dependencies/jquery-3.4.1.js"></script>
+    <script src="./dependencies/popper.min.js"></script>
+    <script src="./dependencies/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="./dependencies/vue.js"></script>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="./images/tree.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta
+      name="description"
+      content="Speak4Env lets you express your ideas about improving the environment."
+    />
+    <title>Speak4Env!</title>
+    
+    <!--Tree image source: https://pixabay.com/vectors/abstract-art-colorful-ecology-leaf-1751248/-->
+  </head>
+  <body class="body">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <div id="app-1">
+      <h1>{{ message }}</h1>
+    </div>
+
+    <div id="app-2">
+      <h1>{{ message }}</h1>
+    </div>
+    
+    <script>
+    var myObject = new Vue({
+      el: '#app-1',
+      data: {message: 'Hello Vue!'}
+    });
+    </script>
+
+    <script>
+    var myObject = new Vue({
+      el: '#app-2',
+      data: {message: 'Hello guyz!'}
+    });
+    </script>
+
+
+
+
+
+    
+  </body>
+</html>
