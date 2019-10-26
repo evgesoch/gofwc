@@ -16,7 +16,7 @@ class Header extends React.Component {
                         </div>
                     </div>
                     <hr className={"my-4"}/>
-                    <p className={"lead"}><span className={"font-weight-bold"}>Speak4Env</span> gives you the opportunity to express and share with others your thoughts and ideas about improving our planet's environment. Let's make it a better place for all of us!</p>
+                    <p className={"lead"}><span className={"font-weight-bold"}>Speak4Env</span> gives you the opportunity to express and share your thoughts and ideas with others about improving our planet's environment. Let's make it a better place for all of us!</p>
                 </div>
             </div>
         );

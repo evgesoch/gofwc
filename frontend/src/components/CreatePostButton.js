@@ -1,5 +1,6 @@
 import React, {useState, createElement} from 'react';
 import Post from './Post';
+import PostsBody from './PostsBody';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
@@ -12,14 +13,42 @@ function CreatePostButton(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // Convert the <PostsBody/> component to DOM element
+    /*let postsContainer = document.createElement("div");
+    ReactDOM.render(<PostsBody/>, postsContainer);*/
+
+    //let postsContainer = ReactDOMServer.renderToStaticMarkup(<PostsBody/>);
+
     function createPost() {
+        // Get the new Post's text
         let postText = document.getElementById("postText").innerHTML;
                 console.log(postText);
-        //let newPost = createElement(Post, postText);
-        handleClose();
 
 
-        
+
+
+        // Prwta to AJAX gia Create Post        
+
+
+        // Meta h dhmiourgia visual Post element
+        //let postsBody = document.getElementById("postsBody");
+
+        // To postID tha gyrisei apo to service
+        /*let newPost = createElement(Post({postID: 0, postText: "hi"}));
+        let newP = document.createElement("div");
+
+        let renderedNewPost = ReactDOM.render("newPost", newP);*/
+
+        //let newNode = ReactDOMServer.renderToString("newPost");
+
+        //let node = document.createTextNode(newNode);
+
+        //renderedNewPost .appendChild(newNode);
+
+       
+        //postsContainer.insertBefore(renderedNewPost, postsContainer.childNodes[0]);
+
+
         /*let successMessageElem = document.getElementById("successMessage");
         let errorMessageElem = document.getElementById("errorMessage");
 
@@ -41,7 +70,7 @@ function CreatePostButton(props) {
     
     return (
         <>
-        <Container className={"text-center"}>
+        <Container className={"s4e-buttonContainer text-center"}>
             <Button variant={"success"} className={"rounded-pill"} onClick={handleShow}>
                 + Create Post
             </Button>
