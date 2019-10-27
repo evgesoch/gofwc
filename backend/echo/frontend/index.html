@@ -46,7 +46,7 @@
     <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="alert alert-success d-none" id="successMessage" role="alert">
+          <div class="alert alert-success d-none mb-0" id="successMessage" role="alert">
             <h5 class="alert-heading">
                 Success
             </h5>
@@ -54,7 +54,7 @@
               The Post was published successfully!
             </p>
           </div>
-          <div class="alert alert-danger d-none" id="errorMessage" role="alert">
+          <div class="alert alert-danger d-none mb-0" id="errorMessage" role="alert">
             <h5 class="alert-heading">
                 Error
             </h5>
@@ -75,8 +75,12 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-outline-success">Save Post</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-outline-success" id="savePostButton">
+              Save Post
+            </button>
           </div>
         </div>
       </div>
@@ -86,7 +90,7 @@
     <div class="container postsContainer" id="postsContainer">
 
       <!-- Post template -->
-      <div class="container post">
+      <div class="container post d-none" id="post">
         <div class="card">
           <div class="card-header s4e-postHeader">
             Post #0
