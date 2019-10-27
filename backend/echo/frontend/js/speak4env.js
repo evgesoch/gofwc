@@ -9,42 +9,43 @@ $(function() {
 });
 
 /**
- * Respond to clicks on Save Post button in the modal
+ * Fetch all Posts from the database and display them
+ */
+function fetchAndRenderAllPosts() {
+
+}
+
+/**
+ * Respond to clicks on Save Post button in the modal and create a new Post
  */
 function listenAndActOnSavePostButtonPress() {
   $("#savePostButton").on('click', () => {
-    let postElem       = $("#post");
-    let postsContainer = $("#postsContainer");
-    let postText       = $("#postText").html();
-    let data           = prepareNewNoteData(postText);
+    let postText = $("#postText").html();
+    let data     = prepareNewNoteData(postText);
 
-    $.when(makeAjaxRequest("GET", "http://localhost:8080/posts/1", JSON.stringify(data)))
+    $.when(makeAjaxRequest("POST", "http://localhost:8080/posts", JSON.stringify(data)))
       .done((response) => {
-        console.log(response);
+        let clonedPostElem = $("#post").clone().removeClass("d-none");
+        let firstPost      = $("#postsContainer").children().first();
+
         $("#postText").html("");
         $("#successMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
-        
+        clonedPostElem.find(".s4e-postHeader").html(`Post #${response.postID}`);
+        clonedPostElem.find("p").html(postText);
+        clonedPostElem.insertBefore(firstPost);
       })
       .fail((response) => {
         $("#errorMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
-
-
       })
-      .always((reponse) => {
-
-      });
-
-
-
   });
 }
 
 /**
- * Prepare data for creating a new Note
+ * Prepare data for creating a new Post
  * 
- * @param {String}  postText new post's text
+ * @param {String} postText The new Post's text
  * 
- * @return {Object}          JS object with payload data
+ * @return {Object}         JS object with payload data
  */
 function prepareNewNoteData(postText) {
   return {
