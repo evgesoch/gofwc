@@ -12,8 +12,14 @@ import (
 )
 
 func init() {
+	// Api
 	ns := beego.NewNamespace("/posts", beego.NSInclude(
 		&controllers.PostController{}),
 	)
 	beego.AddNamespace(ns)
+
+	// Frontend
+	beego.DelStaticPath("/static")
+	beego.SetStaticPath("/frontend", "frontend")
+	beego.SetStaticPath("/speak4env", "frontend/index.html")
 }
