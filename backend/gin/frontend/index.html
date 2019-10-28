@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="frontend/dependencies/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <script src="frontend/dependencies/jquery-3.4.1.js"></script>
+    <script src="frontend/dependencies/popper.min.js"></script>
+    <script src="frontend/dependencies/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="frontend/css/speak4env.css">
+    <meta charset="utf-8"/>
+    <link rel="icon" href="frontend/images/tree.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta
+      name="description"
+      content="Speak4Env lets you express your ideas about improving the environment."
+    />
+    <title>Speak4Env!</title>
+    <!--Tree image source: https://pixabay.com/vectors/abstract-art-colorful-ecology-leaf-1751248/-->
+  </head>
+  <body class="body">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- Header -->
+    <div id="header" class="container">               
+      <div class="jumbotron bg-white mb-10">
+        <div class="container text-center">
+          <div class="d-inline text-center">
+            <img src="frontend/images/tree.svg" class="treeLogo" alt="Speak4Env logo"></img>
+          </div>
+          <div class="d-inline s4e-title h1">
+              Speak4Env!
+          </div>
+        </div>
+        <hr class="my-4"/>
+        <p class="lead"><span class="font-weight-bold">Speak4Env</span> gives you the opportunity to express and share your thoughts and ideas with others about improving our planet's environment. Let's make it a better place for all of us!</p>
+      </div>
+    </div>
+
+    <!-- Posts cannot load error alert-->
+    <div class="container errorAllPostsMessage">
+      <div class="alert alert-danger d-none mb-0" id="errorAllPostsMessage" role="alert">
+        <h5 class="alert-heading">
+            Error
+        </h5>
+        <p class="mb-0">
+            An error occurred while fetching the Posts. Please refresh the page.
+        </p>
+      </div>
+    </div>
+
+    <!-- Create Post Button-->
+    <div class="container s4e-buttonContainer text-center">
+      <button type="button" class="btn btn-success rounded-pill" data-toggle="modal" data-target="#createPostModal">
+        + Create Post
+      </button>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="alert alert-success d-none mb-0" id="successMessage" role="alert">
+            <h5 class="alert-heading">
+                Success
+            </h5>
+            <p class="mb-0">
+              Your Post was published successfully!
+            </p>
+          </div>
+          <div class="alert alert-danger d-none mb-0" id="errorMessage" role="alert">
+            <h5 class="alert-heading">
+                Error
+            </h5>
+            <p class="mb-0">
+                An error occurred when publishing the Post. Please try again.
+            </p>
+          </div>
+          <div class="modal-header">
+            <h5 class="modal-title" id="createPostModalLabel">
+              Create a new Post
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-0">
+            <div class="postText" id="postText" contenteditable="true">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-outline-success" id="savePostButton">
+              Save Post
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container that contains all the posts -->
+    <div class="container postsContainer" id="postsContainer">
+    </div>
+  
+    <!-- Post template -->
+    <div class="container post d-none" id="post" style="margin-bottom: 25px;">
+      <div class="card">
+        <div class="card-header s4e-postHeader">
+          Post #0
+        </div>
+        <div class="card-body">
+          <p class="mb-0">
+            Post example
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a id="backToTop" href="#" class="btn btn-lg btn-dark" role="button">Top</a>
+
+    <!-- Footer -->
+    <br/>
+
+  </body>
+  <script src="frontend/js/speak4env.js"></script>
+</html>
