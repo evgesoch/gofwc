@@ -1,27 +1,42 @@
-$(function() {
+fetchAndRenderAllPosts();
+
+$(function() {  
   listenAndActOnSavePostButtonPress();
-
-  var myObject3 = new Vue({
-    el: '#app-3',
-    data: {message: 'Hello GalZ!'}
-  });
-
+  scrollPageToTop();
+  fetchAllPostsEvery5Sec();
 });
 
 /**
  * Fetch all Posts from the database and display them
  */
 function fetchAndRenderAllPosts() {
+  let postsContainer = $("#postsContainer");
 
+  $.when(makeAjaxRequest("GET", "http://localhost:8080/posts"))
+  .done((response) => {
+    postsContainer.empty();
+
+    for (let i = 0; i < response.length; i++) {
+      let clonedPostElem = $("#post").clone();
+
+      clonedPostElem.find(".s4e-postHeader").html(`Post #${response[i].ID}`);
+      clonedPostElem.find("p").html(response[i].Text);
+      postsContainer.append(clonedPostElem);
+      clonedPostElem.removeClass("d-none");
+    }
+  })
+  .fail((response) => {
+    $("#errorAllPostsMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
+  })
 }
 
 /**
  * Respond to clicks on Save Post button in the modal and create a new Post
  */
 function listenAndActOnSavePostButtonPress() {
-  $("#savePostButton").on('click', () => {
+  $("#savePostButton").click((e) => {
     let postText = $("#postText").html();
-    let data     = prepareNewNoteData(postText);
+    let data     = prepareNewPostData(postText);
 
     $.when(makeAjaxRequest("POST", "http://localhost:8080/posts", JSON.stringify(data)))
       .done((response) => {
@@ -32,7 +47,7 @@ function listenAndActOnSavePostButtonPress() {
         $("#successMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
         clonedPostElem.find(".s4e-postHeader").html(`Post #${response.postID}`);
         clonedPostElem.find("p").html(postText);
-        clonedPostElem.insertBefore(firstPost);
+        clonedPostElem.insertBefore(firstPost).hide().fadeIn();
       })
       .fail((response) => {
         $("#errorMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
@@ -47,7 +62,7 @@ function listenAndActOnSavePostButtonPress() {
  * 
  * @return {Object}         JS object with payload data
  */
-function prepareNewNoteData(postText) {
+function prepareNewPostData(postText) {
   return {
     text: postText
   }
@@ -71,4 +86,32 @@ function makeAjaxRequest(method, url, data) {
       contentType: "application/json"
     })
   );
+}
+
+/**
+ * Refresh the Posts every 5 sec
+ */
+function fetchAllPostsEvery5Sec () {
+  setInterval(() => fetchAndRenderAllPosts(), 5000);
+}
+
+/**
+ * Scroll the page to top
+ */
+function scrollPageToTop() {
+  $(window).scroll(function(e) {
+    if ($(this).scrollTop() > 50) {
+      $('#backToTop').fadeIn();
+    } else {
+      $('#backToTop').fadeOut();
+    }
+  });
+
+  $('#backToTop').click(function(e) {
+    e.preventDefault();
+
+    $('body,html').animate({
+      scrollTop: 0
+    }, 400);
+  });
 }

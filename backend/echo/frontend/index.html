@@ -5,7 +5,6 @@
     <script src="frontend/dependencies/jquery-3.4.1.js"></script>
     <script src="frontend/dependencies/popper.min.js"></script>
     <script src="frontend/dependencies/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-    <script src="frontend/dependencies/vue.js"></script>
     <link rel="stylesheet" href="frontend/css/speak4env.css">
     <meta charset="utf-8"/>
     <link rel="icon" href="frontend/images/tree.ico"/>
@@ -18,6 +17,7 @@
     <!--Tree image source: https://pixabay.com/vectors/abstract-art-colorful-ecology-leaf-1751248/-->
   </head>
   <body class="body">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <!-- Header -->
     <div id="header" class="container">               
@@ -32,6 +32,18 @@
         </div>
         <hr class="my-4"/>
         <p class="lead"><span class="font-weight-bold">Speak4Env</span> gives you the opportunity to express and share your thoughts and ideas with others about improving our planet's environment. Let's make it a better place for all of us!</p>
+      </div>
+    </div>
+
+    <!-- Posts cannot load error alert-->
+    <div class="container errorAllPostsMessage">
+      <div class="alert alert-danger d-none mb-0" id="errorAllPostsMessage" role="alert">
+        <h5 class="alert-heading">
+            Error
+        </h5>
+        <p class="mb-0">
+            An error occurred while fetching the Posts. Please refresh the page.
+        </p>
       </div>
     </div>
 
@@ -88,76 +100,24 @@
 
     <!-- Container that contains all the posts -->
     <div class="container postsContainer" id="postsContainer">
-      <!-- Post template -->
-      <div class="container post d-none" id="post" style="margin-bottom: 15px;">
-        <div class="card">
-          <div class="card-header s4e-postHeader">
-            Post #0
-          </div>
-          <div class="card-body">
-            <p class="mb-0">
-              Post example
-            </p>
-          </div>
+    </div>
+  
+    <!-- Post template -->
+    <div class="container post d-none" id="post" style="margin-bottom: 25px;">
+      <div class="card">
+        <div class="card-header s4e-postHeader">
+          Post #0
+        </div>
+        <div class="card-body">
+          <p class="mb-0">
+            Post example
+          </p>
         </div>
       </div>
     </div>
-  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    
-    <div id="app-1">
-      <h1>{{ message }}</h1>
-    </div>
-
-    <div id="app-2">
-      <h1>{{ message }}</h1>
-    </div>
-
-    <div id="app-3">
-      <h1>{{ message }}</h1>
-    </div>
-  
-    <script>
-      var myObject1 = new Vue({
-        el: '#app-1',
-        data: {message: 'Hello Vue!'}
-      });
-    </script>
-
-    <script>
-    var myObject2 = new Vue({
-      el: '#app-2',
-      data: {message: 'Hello guyz!'}
-    });
-    </script>
-    
-
-
-
-
+    <!-- Back to Top Button -->
+    <a id="backToTop" href="#" class="btn btn-lg btn-dark" role="button">Top</a>
 
     <!-- Footer -->
     <br/>

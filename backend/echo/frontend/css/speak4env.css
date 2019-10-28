@@ -29,3 +29,16 @@
     padding-right: 125px;
     margin-bottom: 15px;
 }
+
+#backToTop {
+    position: fixed;
+    display: none;
+    right: 30px;
+    bottom: 30px;
+}
+
+.errorAllPostsMessage {
+    padding-left: 200px;
+    padding-right: 200px;
+    margin-bottom: 32px;
+}
