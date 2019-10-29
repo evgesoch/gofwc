@@ -6,6 +6,8 @@ import (
 
 	buffaloModels "github.com/evgesoch/gofwc/backend/buffalo/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/buffalo/render"
+	packer "github.com/gobuffalo/packr"
 )
 
 // Get All Posts
@@ -122,6 +124,17 @@ func DeletePost(c buffalo.Context) error {
 		"post_deleted": "yes",
 	}),
 	)
+}
+
+// Serve the index page
+func GetIndexPage(c buffalo.Context) error {
+	rn := render.New(render.Options{
+		DefaultContentType: "text/html",
+		HTMLLayout:         "index.html",
+		TemplatesBox:       packer.NewBox("../frontend"),
+	})
+
+	return c.Render(200, rn.HTML("index"))
 }
 
 // Check if a Post exists in the database by ID

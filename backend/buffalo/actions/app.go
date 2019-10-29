@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"net/http"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
 
@@ -41,11 +43,16 @@ func App() *buffalo.App {
 		// Set the request content type to JSON
 		app.Use(contenttype.Set("application/json"))
 
+		// Api
 		app.GET("/posts", GetAllPosts)
 		app.GET("/posts/{postID}", GetPost)
 		app.POST("/posts", CreatePost)
 		app.PUT("/posts/{postID}", UpdatePost)
 		app.DELETE("/posts/{postID}", DeletePost)
+
+		// Frontend
+		app.ServeFiles("/speak4env/frontend", http.Dir("frontend"))
+		app.GET("/speak4env", GetIndexPage)
 	}
 
 	return app
