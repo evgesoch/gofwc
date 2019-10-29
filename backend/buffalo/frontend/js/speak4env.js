@@ -99,7 +99,7 @@ function fetchAllPostsEvery5Sec () {
  * Scroll the page to top
  */
 function scrollPageToTop() {
-  $(window).scroll(function(e) {
+  $(window).scroll((e) => {
     if ($(this).scrollTop() > 50) {
       $('#backToTop').fadeIn();
     } else {
@@ -107,7 +107,7 @@ function scrollPageToTop() {
     }
   });
 
-  $('#backToTop').click(function(e) {
+  $('#backToTop').click((e) => {
     e.preventDefault();
 
     $('body,html').animate({
