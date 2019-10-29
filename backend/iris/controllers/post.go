@@ -167,6 +167,14 @@ func DeletePost() func(ctx iris.Context) {
 	}
 }
 
+// Serve the index page
+func GetIndexPage() func(ctx iris.Context) {
+	return func(ctx iris.Context) {
+
+		ctx.ServeFile("frontend/index.html", true)
+	}
+}
+
 // Check if a Post exists in the database by ID
 func checkIfPostExists(postID int, postsSlice []*irisModels.Post) bool {
 	arr := make([]int, 0)
