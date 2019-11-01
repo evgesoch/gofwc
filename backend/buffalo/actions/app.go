@@ -51,7 +51,7 @@ func App() *buffalo.App {
 		app.DELETE("/posts/{postID}", DeletePost)
 
 		// Frontend
-		app.ServeFiles("/speak4env/frontend", http.Dir("frontend"))
+		app.ServeFiles("/frontend", http.Dir("../../frontend"))
 		app.GET("/speak4env", GetIndexPage)
 	}
 

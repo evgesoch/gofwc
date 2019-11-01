@@ -17,8 +17,8 @@ func SetupRouter() *gin.Engine {
 	r.DELETE("/posts/:postID", ginControllers.DeletePost())
 
 	// Frontend
-	r.Static("/frontend", "./frontend")
-	r.StaticFile("/speak4env", "./frontend/index.html")
+	r.Static("/frontend", "../../frontend")
+	r.StaticFile("/speak4env", "../../frontend/index.html")
 
 	return r
 }

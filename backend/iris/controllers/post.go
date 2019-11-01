@@ -171,7 +171,7 @@ func DeletePost() func(ctx iris.Context) {
 func GetIndexPage() func(ctx iris.Context) {
 	return func(ctx iris.Context) {
 
-		ctx.ServeFile("frontend/index.html", true)
+		ctx.ServeFile("../../frontend/index.html", true)
 	}
 }
 

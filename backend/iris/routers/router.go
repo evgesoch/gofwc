@@ -14,6 +14,6 @@ func SetupRoutes(app *iris.Application) {
 	app.Delete("/posts/{postID}", irisControllers.DeletePost())
 
 	// Frontend
-	app.HandleDir("/frontend", "frontend")
+	app.HandleDir("/frontend", "../../frontend")
 	app.Get("/speak4env", irisControllers.GetIndexPage())
 }

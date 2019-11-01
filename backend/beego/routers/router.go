@@ -20,6 +20,6 @@ func init() {
 
 	// Frontend
 	beego.DelStaticPath("/static")
-	beego.SetStaticPath("/frontend", "frontend")
-	beego.SetStaticPath("/speak4env", "frontend/index.html")
+	beego.SetStaticPath("/frontend", "../../frontend")
+	beego.SetStaticPath("/speak4env", "../../frontend/index.html")
 }

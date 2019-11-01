@@ -15,6 +15,6 @@ func SetupRoutes(e *echo.Echo) {
 	e.DELETE("posts/:postID", echoControllers.DeletePost())
 
 	// Frontend
-	e.Static("/frontend", "frontend")
-	e.File("/speak4env", "frontend/index.html")
+	e.Static("/frontend", "../../frontend")
+	e.File("/speak4env", "../../frontend/index.html")
 }

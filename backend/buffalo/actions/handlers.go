@@ -131,7 +131,7 @@ func GetIndexPage(c buffalo.Context) error {
 	rn := render.New(render.Options{
 		DefaultContentType: "text/html",
 		HTMLLayout:         "index.html",
-		TemplatesBox:       packer.NewBox("../frontend"),
+		TemplatesBox:       packer.NewBox("../../../frontend"),
 	})
 
 	return c.Render(200, rn.HTML("index"))
