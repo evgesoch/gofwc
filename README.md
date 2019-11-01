@@ -3,9 +3,15 @@
 This is the repository that contains the code for my Master's Thesis in University of Macedonia with title **"Distributed Computing in Go: Comparison and Benchmarking of Web Applications Frameworks"**
 
 ## Setup
-In order to run the code provided, you should have installed at least the version ```go1.12``` of the [Go language](https://golang.org/dl) in your computer . 
+In order to run the code provided, you should have installed at least the version ```go1.12``` of the [Go language](https://golang.org/dl) in your computer.
 
-The project should be included in the ```src``` directory of your ```GOPATH```.
+Once you install Go, open a terminal and write the command
+
+    $ go get github.com/evgesoch/gofwc
+
+to download and install the project.
+
+It will be included in the ```src``` directory of your ```GOPATH```.
 
 The frameworks' source code has not been included in this repository. You can download and install them by visiting their websites and following the installation instructions:
 - Beego [https://beego.me/](https://beego.me/)
