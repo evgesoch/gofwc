@@ -1,58 +1,58 @@
 fetchAndRenderAllPosts();
 
-$(function() {  
-  listenAndActOnSavePostButtonPress();
-  scrollPageToTop();
-  fetchAllPostsEvery5Sec();
+$(function () {
+	listenAndActOnSavePostButtonPress();
+	scrollPageToTop();
+	fetchAllPostsEvery5Sec();
 });
 
 /**
  * Fetch all Posts from the database and display them
  */
 function fetchAndRenderAllPosts() {
-  let postsContainer = $("#postsContainer");
+	let postsContainer = $("#postsContainer");
 
-  $.when(makeAjaxRequest("GET", "http://localhost:8080/posts"))
-  .done((response) => {
-    postsContainer.empty();
+	$.when(makeAjaxRequest("GET", "http://localhost:8080/posts"))
+	.done((response) => {
+		postsContainer.empty();
 
-    for (let i = 0; i < response.length; i++) {
-      let clonedPostElem = $("#post").clone();
+		for (let i = 0; i < response.length; i++) {
+			let clonedPostElem = $("#post").clone();
 
-      clonedPostElem.find(".s4e-postHeader").html(`Post #${response[i].ID}`);
-      clonedPostElem.find("p").html(response[i].Text);
-      postsContainer.append(clonedPostElem);
-      clonedPostElem.removeClass("d-none");
-    }
-  })
-  .fail((response) => {
-    $("#errorAllPostsMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
-  })
+			clonedPostElem.find(".s4e-postHeader").html(`Post #${response[i].ID}`);
+			clonedPostElem.find("p").html(response[i].Text);
+			postsContainer.append(clonedPostElem);
+			clonedPostElem.removeClass("d-none");
+		}
+	})
+	.fail((response) => {
+		$("#errorAllPostsMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
+	})
 }
 
 /**
  * Respond to clicks on Save Post button in the modal and create a new Post
  */
 function listenAndActOnSavePostButtonPress() {
-  $("#savePostButton").click((e) => {
-    let postText = $("#postText").html();
-    let data     = prepareNewPostData(postText);
+	$("#savePostButton").click((e) => {
+		let postText = $("#postText").html();
+		let data = prepareNewPostData(postText);
 
-    $.when(makeAjaxRequest("POST", "http://localhost:8080/posts", JSON.stringify(data)))
-      .done((response) => {
-        let clonedPostElem = $("#post").clone().removeClass("d-none");
-        let firstPost      = $("#postsContainer").children().first();
+		$.when(makeAjaxRequest("POST", "http://localhost:8080/posts", JSON.stringify(data)))
+		.done((response) => {
+			let clonedPostElem = $("#post").clone().removeClass("d-none");
+			let firstPost = $("#postsContainer").children().first();
 
-        $("#postText").html("");
-        $("#successMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
-        clonedPostElem.find(".s4e-postHeader").html(`Post #${response.postID}`);
-        clonedPostElem.find("p").html(postText);
-        clonedPostElem.insertBefore(firstPost).hide().fadeIn();
-      })
-      .fail((response) => {
-        $("#errorMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
-      })
-  });
+			$("#postText").html("");
+			$("#successMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
+			clonedPostElem.find(".s4e-postHeader").html(`Post #${response.postID}`);
+			clonedPostElem.find("p").html(postText);
+			clonedPostElem.insertBefore(firstPost).hide().fadeIn();
+		})
+		.fail((response) => {
+			$("#errorMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
+		})
+	});
 }
 
 /**
@@ -63,9 +63,9 @@ function listenAndActOnSavePostButtonPress() {
  * @return {Object}         JS object with payload data
  */
 function prepareNewPostData(postText) {
-  return {
-    text: postText
-  }
+	return {
+		text: postText
+	}
 }
 
 /**
@@ -78,40 +78,40 @@ function prepareNewPostData(postText) {
  * @return {jqXHR}        jQuery XHR object
  */
 function makeAjaxRequest(method, url, data) {
-  return (
-    $.ajax({
-      method: method,
-      url: url,
-      data: data,
-      contentType: "application/json"
-    })
-  );
+	return (
+		$.ajax({
+			method: method,
+			url: url,
+			data: data,
+			contentType: "application/json"
+		})
+	);
 }
 
 /**
  * Refresh the Posts every 5 sec
  */
-function fetchAllPostsEvery5Sec () {
-  setInterval(() => fetchAndRenderAllPosts(), 5000);
+function fetchAllPostsEvery5Sec() {
+	setInterval(() => fetchAndRenderAllPosts(), 5000);
 }
 
 /**
  * Scroll the page to top
  */
 function scrollPageToTop() {
-  $(window).scroll((e) => {
-    if ($(this).scrollTop() > 50) {
-      $('#backToTop').fadeIn();
-    } else {
-      $('#backToTop').fadeOut();
-    }
-  });
+	$(window).scroll((e) => {
+		if ($(this).scrollTop() > 50) {
+			$('#backToTop').fadeIn();
+		} else {
+			$('#backToTop').fadeOut();
+		}
+	});
 
-  $('#backToTop').click((e) => {
-    e.preventDefault();
+	$('#backToTop').click((e) => {
+		e.preventDefault();
 
-    $('body,html').animate({
-      scrollTop: 0
-    }, 400);
-  });
+		$('body,html').animate({
+			scrollTop: 0
+		}, 400);
+	});
 }
