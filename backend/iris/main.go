@@ -1,13 +1,17 @@
 package main
 
 import (
-	irisRouters "github.com/evgesoch/gofwc/backend/iris/routers"
+	irisModel "github.com/evgesoch/gofwc/backend/iris/models"
+	irisRouter "github.com/evgesoch/gofwc/backend/iris/routers"
+
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
 )
 
 func main() {
+	irisModel.OpenDB()
+
 	app := iris.New()
 	app.Logger().SetLevel("debug")
 	// Optionally, add two built'n handlers
@@ -16,7 +20,10 @@ func main() {
 	app.Use(recover.New())
 	app.Use(logger.New())
 
-	irisRouters.SetupRoutes(app)
+	irisRouter.SetupRoutes(app)
 
-	app.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
+	err := app.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
+	if err != nil {
+		irisModel.CloseDB()
+	}
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	buffaloModel "github.com/evgesoch/gofwc/backend/buffalo/models"
+
 	"github.com/evgesoch/gofwc/backend/buffalo/actions"
 )
 
@@ -13,8 +15,11 @@ import (
 // call `app.Serve()`, unless you don't want to start your
 // application that is. :)
 func main() {
+	buffaloModel.OpenDB()
+
 	app := actions.App()
 	if err := app.Serve(); err != nil {
+		buffaloModel.CloseDB()
 		log.Fatal(err)
 	}
 }

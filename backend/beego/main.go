@@ -1,16 +1,37 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
+	"os"
+	"os/signal"
+	"syscall"
 
-	_ "github.com/evgesoch/gofwc/backend/beego/routers"
+	beegoModel "github.com/evgesoch/gofwc/backend/beego/models"
+
+	"github.com/astaxie/beego"
 )
 
 func main() {
+	beegoModel.OpenDB()
+
 	// Run the application
 	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 	beego.Run()
+
+	handleServerTermination()
+}
+
+// Close the database after server termination
+func handleServerTermination() {
+	c := make(chan os.Signal, 2)
+
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		<-c
+		beegoModel.CloseDB()
+		os.Exit(0)
+	}()
 }
