@@ -8,13 +8,13 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/evgesoch/gofwc/backend/beego/controllers"
+	beegoController "github.com/evgesoch/gofwc/backend/beego/controllers"
 )
 
 func init() {
 	// Api
 	ns := beego.NewNamespace("/posts", beego.NSInclude(
-		&controllers.PostController{}),
+		&beegoController.PostController{}),
 	)
 	beego.AddNamespace(ns)
 

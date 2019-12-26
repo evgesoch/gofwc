@@ -6,6 +6,7 @@ import (
 	"syscall"
 
 	beegoModel "github.com/evgesoch/gofwc/backend/beego/models"
+	_ "github.com/evgesoch/gofwc/backend/beego/routers"
 
 	"github.com/astaxie/beego"
 )
