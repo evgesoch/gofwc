@@ -1,6 +1,6 @@
 # gofwc (Go Web Frameworks Comparison)
 
-This is the repository that contains the code for my Master's Thesis in University of Macedonia with title **"Distributed Computing in Go: Comparison of Web Application Frameworks"**
+This is the repository that contains the code for my Master's Thesis in University of Macedonia with title **"Distributed Computing in Go: Comparative Analysis of Web Application Frameworks"**
 
 ## Setup
 In order to run the code provided, you should have installed at least the version ```go1.12``` of the [Go language](https://golang.org/dl) in your computer.
