@@ -1,9 +1,7 @@
 fetchAndRenderAllPosts();
 
 $(function () {
-	listenAndActOnSavePostButtonPress();
 	scrollPageToTop();
-	fetchAllPostsEvery5Sec();
 });
 
 /**
@@ -15,6 +13,10 @@ function fetchAndRenderAllPosts() {
 	$.when(makeAjaxRequest("GET", "http://localhost:8080/posts"))
 	.done((response) => {
 		postsContainer.empty();
+		listenAndActOnSavePostButtonPress();
+		$("#create-post-btn").prop("disabled", false);
+		$("#spinner").addClass("d-none");
+		$(".s4e-buttonContainer button").css("pointer-events", "auto")
 
 		for (let i = 0; i < response.length; i++) {
 			let clonedPostElem = $("#post").clone();

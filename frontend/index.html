@@ -18,7 +18,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
-
 	<link rel="stylesheet" href="frontend/css/speak4env.css">
 	<meta charset="utf-8" />
 	<link rel="icon" href="frontend/images/tree.ico" />
@@ -63,9 +62,16 @@
 
 	<!-- Create Post Button-->
 	<div class="container s4e-buttonContainer text-center">
-		<button type="button" class="btn btn-success rounded-pill" data-toggle="modal" data-target="#createPostModal">
+		<button id="create-post-btn" type="button" class="btn btn-success rounded-pill" data-toggle="modal" data-target="#createPostModal" disabled="true">
 			+ Create Post
 		</button>
+	</div>
+
+	<!-- Loading spinner -->
+	<div id="spinner" class="text-center">
+		<div class="spinner-grow text-secondary s4e-spinner" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
 	</div>
 
 	<!-- Modal -->
