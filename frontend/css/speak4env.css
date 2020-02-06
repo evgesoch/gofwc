@@ -18,6 +18,10 @@
     margin-bottom: 32px;
 }
 
+.s4e-buttonContainer button {
+    pointer-events: none;
+}
+
 .s4e-postHeader {
     font-size: 12px;
     background-color: #faeaa2;
@@ -25,8 +29,8 @@
 }
 
 .postsContainer {
-    padding-left: 125px;
-    padding-right: 125px;
+    padding-left: 50px;
+    padding-right: 50px;
     margin-bottom: 15px;
 }
 

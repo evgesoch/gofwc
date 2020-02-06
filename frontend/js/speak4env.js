@@ -1,6 +1,7 @@
 fetchAndRenderAllPosts();
 
 $(function () {
+	listenAndActOnSavePostButtonPress();
 	scrollPageToTop();
 });
 
@@ -13,7 +14,6 @@ function fetchAndRenderAllPosts() {
 	$.when(makeAjaxRequest("GET", "http://localhost:8080/posts"))
 	.done((response) => {
 		postsContainer.empty();
-		listenAndActOnSavePostButtonPress();
 		$("#create-post-btn").prop("disabled", false);
 		$("#spinner").addClass("d-none");
 		$(".s4e-buttonContainer button").css("pointer-events", "auto")
@@ -42,14 +42,20 @@ function listenAndActOnSavePostButtonPress() {
 
 		$.when(makeAjaxRequest("POST", "http://localhost:8080/posts", JSON.stringify(data)))
 		.done((response) => {
-			let clonedPostElem = $("#post").clone().removeClass("d-none");
+			let clonedPostElem = $("#post").clone().removeClass("d-none").attr("id", `post-${response.postID}`);
 			let firstPost = $("#postsContainer").children().first();
 
 			$("#postText").html("");
 			$("#successMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
 			clonedPostElem.find(".s4e-postHeader").html(`Post #${response.postID}`);
 			clonedPostElem.find("p").html(postText);
-			clonedPostElem.insertBefore(firstPost).hide().fadeIn();
+
+			if (!firstPost.length) {
+				let postsContainer = $("#postsContainer");
+				postsContainer.append(clonedPostElem);
+			} else {
+				clonedPostElem.insertBefore(firstPost).hide().fadeIn();
+			}
 		})
 		.fail((response) => {
 			$("#errorMessage").fadeIn().removeClass("d-none").delay(2000).fadeOut();
