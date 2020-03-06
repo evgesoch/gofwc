@@ -17,7 +17,6 @@ type PostController struct {
 // @Title GetAll
 // @Description Get all Posts
 // @Success 200 {post} models.Post
-// @Failure 403 :postID is empty
 // @router / [get]
 func (pc *PostController) GetAll() {
 	allPosts, err := models.GetAllPosts()
@@ -36,7 +35,6 @@ func (pc *PostController) GetAll() {
 // @Description Get a Post by its ID
 // @Param postID path int true "The Post's ID you want to get"
 // @Success 200 {post} models.Post
-// @Failure 403 :postID is empty
 // @router /:postID [get]
 func (pc *PostController) Get() {
 	postID, err := strconv.Atoi(pc.Ctx.Input.Param(":postID"))
@@ -68,7 +66,6 @@ func (pc *PostController) Get() {
 // @Description Create a new Post
 // @Param text body string true	"The new Post's text"
 // @Success 200 {string} models.Post.Id
-// @Failure 403 body is empty
 // @router / [post]
 func (pc *PostController) Post() {
 	params := make(map[string]interface{})
@@ -102,7 +99,6 @@ func (pc *PostController) Post() {
 // @Param postID path int true "The Post's ID you want to update"
 // @Param text body string true	"The updated Post's text"
 // @Success 201 {post} models.Post
-// @Failure 403 :postID is empty
 // @router /:postID [put]
 func (pc *PostController) Put() {
 	postID, err := strconv.Atoi(pc.Ctx.Input.Param(":postID"))
@@ -155,7 +151,6 @@ func (pc *PostController) Put() {
 // @Description Delete a Post by its ID
 // @Param postID path int true "The Post's ID you want to delete"
 // @Success 204 {post} models.Post
-// @Failure 403 :postID is empty
 // @router /:postID [delete]
 func (pc *PostController) Delete() {
 	postID, err := strconv.Atoi(pc.Ctx.Input.Param(":postID"))
