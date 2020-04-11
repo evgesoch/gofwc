@@ -28,10 +28,15 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+This is a block comment that describes the package.
+It contains multi-line comments.
+ */
 package main
 
 import "fmt"
 
+// This is a single-line comment that provides the function's description.
 func main() {
 	fmt.Println("Hello, World!")
 }
