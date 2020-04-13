@@ -32,10 +32,23 @@ package main
 
 import "fmt"
 
+// Variables declared at package level
 var i, j, k bool
 
-func main() {
-	var l int
+// Variables at package level with initializers
+var(
+	a, b = 1, 2
+	c    = true
+)
 
+func main() {
+	// Variable declared at function level
+	var l int
 	fmt.Println(i, j, k, l)
+
+	// Variable at function level with initializer
+	var d = "hi"
+	// Variable created with short declaration
+	e := 1.5
+	fmt.Println(c, d, e)
 }
