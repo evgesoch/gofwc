@@ -39,12 +39,25 @@ type Point struct {
 }
 
 func main() {
-	// Create and print a Point with specific X and Y
+	// Create and print a Point struct with specific X and Y
 	point1 := Point{1, 2}
 	fmt.Println(point1)
 
 	// Gain access to a Point's X field
-	point2 := Point{3, 4}
+	point2  := Point{3, 4}
 	point2.X = 4
 	fmt.Println(point2.X)
+
+	// Access a struct's field with a pointer to that struct
+	point3 := Point{4, 5}
+	p3     := &point3
+	p3.X    = 1e6          //(*p3).X will also do
+	fmt.Println(point3)
+
+	// Create structs with various struct literals
+	point4 := Point{5, 6}  // has type Point
+	point5 := Point{X: 7}  // Y:7 is implicit
+	point6 := Point{}      // X:0 and Y:0
+	p      := &Point{8, 9} // has type *Point
+	fmt.Println(point4, point5, point6, p)
 }
