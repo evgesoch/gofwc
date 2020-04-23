@@ -35,8 +35,19 @@ import "fmt"
 func main() {
 	// First create an array
 	primes := [8]int{0, 1, 2, 3, 4, 5, 6, 7}
-
 	// Then create a slice that contains the elements 1 to 4 of the array
-	var s []int = primes[1:5]
-	fmt.Println(s)
+	var sl1 []int = primes[1:5]
+	fmt.Println("Slice sl1 of the primes array:", sl1)
+
+	// Create slices of an array, changes values and notice the changes in both slices and the array
+	nums := [5]string{"one", "two", "three", "four", "five"}
+	fmt.Println("Τhe nums array:", nums)
+	sl2 := nums[0:3]
+	sl3 := nums[1:4]
+	fmt.Println("A slice sl2 of the nums array:", sl2)
+	fmt.Println("Another slice sl3 of the nums array:", sl3)
+	sl3[1] = "CHANGE"
+	fmt.Println("Slice sl2 changed:", sl2)
+	fmt.Println("Slice sl3 changed:", sl3)
+	fmt.Println("nums array changed:", nums)
 }
