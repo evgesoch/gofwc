@@ -50,4 +50,19 @@ func main() {
 	fmt.Println("Slice sl2 changed:", sl2)
 	fmt.Println("Slice sl3 changed:", sl3)
 	fmt.Println("nums array changed:", nums)
+
+	// Slice literals
+	sl4 := []bool{true, false, true, true, false, true}
+	fmt.Println("Slice sl4:", sl4)
+
+	// Slice defaults
+	sl5 := sl4[:2]
+	sl6 := sl4[2:5]
+	sl7 := sl4[4:]
+	fmt.Println("Slice sl4 defaults:", sl5, sl6, sl7)
+
+	//
+
+
+
 }
