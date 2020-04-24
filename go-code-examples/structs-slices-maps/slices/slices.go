@@ -61,8 +61,26 @@ func main() {
 	sl7 := sl4[4:]
 	fmt.Println("Slice sl4 defaults:", sl5, sl6, sl7)
 
+	// Slices' length and capacity
+	sl8 := []int{1, 3, 5, 7, 9, 11}
+	fmt.Printf("The sl8 slice: %v len=%d cap=%d\n", sl8, len(sl8), cap(sl8))
+	// Slice the slice to give it zero length
+	sl8 = sl8[:0]
+	fmt.Printf("sl8 re-sliced 1st time: %v len=%d cap=%d\n", sl8, len(sl8), cap(sl8))
+	// Extend its length
+	sl8 = sl8[:4]
+	fmt.Printf("sl8 re-sliced 2nd time: %v len=%d cap=%d\n", sl8, len(sl8), cap(sl8))
+	// Drop its first two values
+	sl8 = sl8[2:]
+	fmt.Printf("sl8 re-sliced 3rd time: %v len=%d cap=%d\n", sl8, len(sl8), cap(sl8))
+
+	// A nil slice
+	var sl9 []int
+	fmt.Printf("The sl9 slice: %v len=%d cap=%d\n", sl9, len(sl9), cap(sl9))
+	if sl9 == nil {
+		fmt.Println("sl9 is nil")
+	}
+
 	//
-
-
 
 }
