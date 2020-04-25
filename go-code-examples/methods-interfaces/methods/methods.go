@@ -39,7 +39,7 @@ type Point struct {
 	X, Y float64
 }
 
-// Declare a method Abs for the Point struct
+// Declare an Abs method for the Point struct
 func (p Point) Abs() float64 {
 	return math.Sqrt(p.X*p.X + p.Y*p.Y)
 }
@@ -49,6 +49,16 @@ func Abs(p Point) float64 {
 	return math.Sqrt(p.X*p.X + p.Y*p.Y)
 }
 
+type MyInt int
+
+// Declare an Absolute method for the non-struct type MyInt
+func (i MyInt) Absolute() int {
+	if i < 0 {
+		return int(-i)
+	}
+	return int(i)
+}
+
 func main() {
 	// Call the Abs method of a Point struct
 	p1 := Point{3, 4}
@@ -56,6 +66,10 @@ func main() {
 
 	// Call the Abs function that takes a Point as an argument
 	fmt.Println("Abs function with p1 as argument:", Abs(p1))
+
+	// Call the Absolute method of a MyInt variable
+	mi1 := MyInt(-5)
+	fmt.Println("mi1 Absolute method:", mi1.Absolute())
 
 	//
 
