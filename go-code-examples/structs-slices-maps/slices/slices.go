@@ -30,7 +30,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	// First create an array
@@ -81,6 +84,48 @@ func main() {
 		fmt.Println("sl9 is nil")
 	}
 
-	//
+	// Create slice with make
+	sl10 := make([]int, 0, 6)
+	fmt.Printf("The sl10 slice: %v len=%d cap=%d\n", sl10, len(sl10), cap(sl10))
+	sl11 := sl10[:2]
+	fmt.Printf("sl11 slice created by sl10: %v len=%d cap=%d\n", sl11, len(sl11), cap(sl11))
 
+	// Slices of slices
+	// Create a tic-tac-toe board.
+	board := [][]string{
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+	}
+	// The players take turns.
+	board[0][0] = "O"
+	board[2][2] = "X"
+	board[1][2] = "X"
+	board[1][0] = "O"
+	board[0][2] = "X"
+	for i := 0; i < len(board); i++ {
+		fmt.Printf("%s\n", strings.Join(board[i], " "))
+	}
+
+	// Append new elements to a slice
+	var sl12 []string
+	fmt.Printf("The sl12 slice: %v len=%d cap=%d\n", sl12, len(sl12), cap(sl12))
+	sl12 = append(sl12, "hi")
+	sl12 = append(sl12, "there", "!")
+	fmt.Printf("The sl12 slice with new elements: %v len=%d cap=%d\n", sl12, len(sl12), cap(sl12))
+
+	// Range loop a slice
+	sl13 := []float64{0.1, 0.2, 0.3, 0.4}
+	for i, v := range sl13 {
+		fmt.Printf("Element in index %d has value %v\n", i, v)
+	}
+
+	// Range without value
+	for i := range sl13 { // can also be written: for i, _ := range...
+		fmt.Printf("Element in index %d\n", i)
+	}
+	// Range without index
+	for _, v := range sl13 {
+		fmt.Printf("Element has value %v\n", v)
+	}
 }
