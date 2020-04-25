@@ -30,8 +30,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
+
+// A function that takes a function as an argument.
+// It also returns that function
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+// The adder function returns a closure that is
+// bound to its own sum variable
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum = sum + x
+		return sum
+	}
+}
 
 func main() {
-	fmt.Println("closures")
+	// Create a new function and save it to a variable
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	// Use this function directly
+	fmt.Println(hypot(3, 5))
+	// Use the function as argument in the compute function
+	fmt.Println(compute(hypot))
+	// math.Pow used as argument in the compute function.
+	// It is exactly the same type as hypot, but it returns
+	// the base-x exponential of y
+	fmt.Println(compute(math.Pow))
+
+	// Use the closure the adder function returns
+	closure := adder()
+	for i := 0; i < 5; i++ {
+		fmt.Println("Sum is:", closure(i))
+	}
 }
