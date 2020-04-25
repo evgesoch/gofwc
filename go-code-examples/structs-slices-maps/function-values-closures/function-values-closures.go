@@ -32,42 +32,6 @@ package main
 
 import "fmt"
 
-type Point struct {
-	X, Y float64
-}
-
 func main() {
-	// Create a new map and give a value to it
-	m1 := make(map[string]Point)
-	m1["1st Point"] = Point{13.859, 20.136}
-	fmt.Println("1st Map's 1st Point:", m1["1st Point"])
-
-	// Create a map with map literals
-	m2 := map[string]Point{
-		"1st Point": {10.500, 11.500},
-		"2nd Point": {12.600, 13.600},
-		"3rd Point": {15.800, 16.800},
-	}
-	fmt.Println("2nd Map:", m2)
-
-	// Mutate a map
-	m3 := make(map[string]float64)
-	// Insert an element
-	m3["1st Point"] = 13.333
-	fmt.Println("Inserted an element in map m3:", m3)
-	// Update an element
-	m3["1st Point"] = 14.444
-	fmt.Println("Updated an element in map m3:", m3)
-	// Delete an element
-	delete(m3, "1st Point")
-	fmt.Println("Deleted an element in map m3:", m3)
-	// Check if a key exists
-	value, ok := m3["1st Point"]
-	fmt.Println("The key '1st Point' with value", value, "exists:", ok)
-
-	// Iterate a map with range
-	fmt.Println("Iterating the m2 map...")
-	for i, v := range m2 {
-		fmt.Printf("Element with key %s has value %v\n", i, v)
-	}
+	fmt.Println("closures")
 }
