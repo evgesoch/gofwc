@@ -53,9 +53,17 @@ func (p *Point) Scale(f float64) {
 	p.Y = p.Y * f
 }
 
-// Abs as a normal function that takes a Point as an argument
+// The Abs method written as a normal function
+// that takes a Point as an argument
 func Abs(p Point) float64 {
 	return math.Sqrt(p.X*p.X + p.Y*p.Y)
+}
+
+// The Scale method written as normal function, with a
+// pointer to a Point struct as argument
+func Scale(p *Point, f float64) {
+	p.X = p.X * f
+	p.Y = p.Y * f
 }
 
 type MyInt int
@@ -83,11 +91,21 @@ func main() {
 	// Call the Scale method to change a Point
 	p2 := Point{1, 2}
 	fmt.Println("p2 before Scale method:", p2)
+	// The Scale method has a pointer receiver, but Go
+	// interprets p2.Scale as (&p2).Scale
 	p2.Scale(2) // (&p2).Scale will produce the same result
 	fmt.Println("p2 after Scale method:", p2)
 
-	//
+	// Call the Abs and Scale functions instead of the methods
+	p3 := Point{0.5, 0.5}
+	Scale(&p3, 2)
+	fmt.Println("Scale function with a pointer to p3 as argument:", p3)
+	fmt.Println("Abs function with p3 as argument:", Abs(p3))
 
-
-
+	// p4 is a pointer, but Abs method can be called
+	// although it has a value receiver.
+	// Abs function needs a value argument, doesn't receive a pointer one
+	p4 := &Point{5, 6}
+	fmt.Println("p4 Abs method:", p4.Abs())
+	fmt.Println(("Abs function with dereferencing on p4 pointer to struct:"), Abs(*p4))
 }
