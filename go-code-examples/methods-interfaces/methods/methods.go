@@ -39,9 +39,18 @@ type Point struct {
 	X, Y float64
 }
 
-// Declare an Abs method for the Point struct
+// Declare an Abs method for the Point struct.
+// Abs has a value receiver, which means that it operates
+// on a copy of the original Point value
 func (p Point) Abs() float64 {
 	return math.Sqrt(p.X*p.X + p.Y*p.Y)
+}
+
+// The Scale method has a pointer receiver, because it
+// should be able to change the Point's value that is called upon
+func (p *Point) Scale(f float64) {
+	p.X = p.X * f
+	p.Y = p.Y * f
 }
 
 // Abs as a normal function that takes a Point as an argument
@@ -71,7 +80,14 @@ func main() {
 	mi1 := MyInt(-5)
 	fmt.Println("mi1 Absolute method:", mi1.Absolute())
 
+	// Call the Scale method to change a Point
+	p2 := Point{1, 2}
+	fmt.Println("p2 before Scale method:", p2)
+	p2.Scale(2) // (&p2).Scale will produce the same result
+	fmt.Println("p2 after Scale method:", p2)
+
 	//
+
 
 
 }
