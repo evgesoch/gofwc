@@ -32,6 +32,45 @@ package main
 
 import "fmt"
 
+// An interface that has a single method, Invert
+type Inverter interface {
+	Invert()
+}
+
+// Type TwoDPoint implements the Inverter interface
+type TwoDPoint struct {
+	X, Y float64
+}
+
+// Implicit implementation of the Inverter interface
+func (tdp *TwoDPoint) Invert() {
+	tdp.X = -tdp.X
+	tdp.Y = -tdp.Y
+}
+
+// Type OneDPoint implements the Inverter interface
+type OneDPoint struct {
+	X float64
+}
+
+// Implicit implementation of the Inverter interface
+func (mf *OneDPoint) Invert() {
+	mf.X = -mf.X
+}
+
 func main() {
-	fmt.Println("interfaces")
+	// Create an Inverter, TwoDPoint and OneDPoint variable
+	var i1, i2 Inverter
+	p1 := TwoDPoint{1, 2}
+	p2 := OneDPoint{3}
+	i1 = &p1 // Only *TwoDPoint implements Inverter, not TwoDPoint
+	i2 = &p2 // Only *OneDPoint implements Inverter, not OneDPoint
+	i1.Invert()
+	i2.Invert()
+	fmt.Println("*TwoDPoint type var p1 implements Inverter:", i1)
+	fmt.Println("*OneDPoint type var mf1 implements Inverter:", i2)
+
+	//
+
+
 }
