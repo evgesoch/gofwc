@@ -59,7 +59,7 @@ func (mf *OneDPoint) Invert() {
 }
 
 func main() {
-	// Create an Inverter, TwoDPoint and OneDPoint variable
+	// Create Inverter, TwoDPoint and OneDPoint variables
 	var i1, i2 Inverter
 	p1 := TwoDPoint{1, 2}
 	p2 := OneDPoint{3}
@@ -70,7 +70,10 @@ func main() {
 	fmt.Println("*TwoDPoint type var p1 implements Inverter:", i1)
 	fmt.Println("*OneDPoint type var mf1 implements Inverter:", i2)
 
-	//
+	// Check interface values and types
+	fmt.Printf("Value and type of i1 interface: (%v, %T)\n", i1, i1)
+	fmt.Printf("Value and type of i2 interface: (%v, %T)\n", i2, i2)
 
+	//
 
 }
