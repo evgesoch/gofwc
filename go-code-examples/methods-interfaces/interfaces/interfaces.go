@@ -82,9 +82,13 @@ func main() {
 	i3 = p3
 	fmt.Printf("Value and type of i3 interface: (%v, %T)\n", i3, i3)
 
+	// Nil interface
+	var i4 Inverter
+	fmt.Printf("Value and type of i4 interface: (%v, %T)\n", i4, i4)
+	// Calling Invert causes run-time error: i4 doesn't have a type
+	// i4.Invert()
+
 	//
-
-
 
 
 }
