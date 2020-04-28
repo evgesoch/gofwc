@@ -74,6 +74,17 @@ func main() {
 	fmt.Printf("Value and type of i1 interface: (%v, %T)\n", i1, i1)
 	fmt.Printf("Value and type of i2 interface: (%v, %T)\n", i2, i2)
 
+	// Interface with nil value
+	var (
+		i3 Inverter
+		p3 *TwoDPoint
+	)
+	i3 = p3
+	fmt.Printf("Value and type of i3 interface: (%v, %T)\n", i3, i3)
+
 	//
+
+
+
 
 }
