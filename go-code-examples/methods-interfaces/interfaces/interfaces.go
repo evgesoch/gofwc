@@ -105,5 +105,13 @@ func main() {
 	// The following line triggers a panic
 	// t1 := i6.(string)
 
-
+	// Type switch
+	switch v := i6.(type) {
+		case int:
+			fmt.Printf("INT! i6 is of type %T with value %v\n", v, v)
+		case float64:
+			fmt.Printf("FLOAT64! i6 is of type %T with value %v\n", v, v)
+		default:
+			fmt.Printf("DEFAULT CASE! i6 is of type %T!\n", v)
+	}
 }
