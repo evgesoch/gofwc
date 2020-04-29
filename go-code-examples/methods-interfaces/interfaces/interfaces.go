@@ -54,8 +54,8 @@ type OneDPoint struct {
 }
 
 // Implicit implementation of the Inverter interface
-func (mf *OneDPoint) Invert() {
-	mf.X = -mf.X
+func (odp *OneDPoint) Invert() {
+	odp.X = -odp.X
 }
 
 func main() {
@@ -85,10 +85,25 @@ func main() {
 	// Nil interface
 	var i4 Inverter
 	fmt.Printf("Value and type of i4 interface: (%v, %T)\n", i4, i4)
-	// Calling Invert causes run-time error: i4 doesn't have a type
+	// Calling Invert on i4 causes run-time error: i4 doesn't have a type
 	// i4.Invert()
 
-	//
+	// Empty interface
+	var i5 interface{}
+	fmt.Printf("Value and type of i5 interface: (%v, %T)\n", i5, i5)
+	i5 = "hi"
+	fmt.Printf("Value and type of i5 interface: (%v, %T)\n", i5, i5)
+	i5 = 5
+	fmt.Printf("Value and type of i5 interface: (%v, %T)\n", i5, i5)
+
+	// Type assertions
+	var i6 interface{} = 88.88
+	t, ok := i6.(float64) // ok can be omitted, can be written t := i6.(float64)
+	if ok {
+		fmt.Printf("Type assertion passed: i6 (%v, %T)\n", t, i6)
+	}
+	// The following line triggers a panic
+	// t1 := i6.(string)
 
 
 }
