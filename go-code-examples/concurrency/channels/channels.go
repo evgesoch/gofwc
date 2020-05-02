@@ -32,6 +32,38 @@ package main
 
 import "fmt"
 
+// Function sum sums all the elements of the input slice,
+// then sends the computed sum value inside a channel that
+// receives integer values
+func sum(sl []int, ch chan int) {
+	sum := 0
+	for _, v := range sl {
+		sum += v
+	}
+	// Wait till ch is ready to receive values, then send the sum
+	// into ch
+	ch <- sum
+}
+
 func main() {
-	fmt.Println("channels")
+	// Simple demonstration of channel functionality
+	// Create a slice and a channel
+	sl1 := []int{1, 2, 3, 4, 5, 6}
+	ch1 := make(chan int)
+	// Create 2 goroutines, where each one computes
+	// the sum of the half of the s slice
+	go sum(sl1[:len(sl1)/2], ch1)
+	go sum(sl1[len(sl1)/2:], ch1)
+	// Assign the computed sums into 2 variables.
+	// We don't know which goroutine will finish first,
+	// so x is not necessarily going to be 6 and y 15
+	x, y := <-ch1, <-ch1
+	fmt.Printf(
+		"One sum of s slice: %v\n" +
+		"The other sum of s slice: %v\n" +
+		"Total sum of s slice: %v", x, y, x+y,
+	)
+
+	//
+
 }
