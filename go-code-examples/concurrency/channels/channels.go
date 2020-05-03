@@ -54,15 +54,27 @@ func main() {
 	// the sum of the half of the s slice
 	go sum(sl1[:len(sl1)/2], ch1)
 	go sum(sl1[len(sl1)/2:], ch1)
-	// Assign the computed sums into 2 variables.
+	// Receive and assign the computed sums into 2 variables.
 	// We don't know which goroutine will finish first,
 	// so x is not necessarily going to be 6 and y 15
-	x, y := <-ch1, <-ch1
+	sum1, sum2 := <-ch1, <-ch1
 	fmt.Printf(
-		"One sum of s slice: %v\n" +
-		"The other sum of s slice: %v\n" +
-		"Total sum of s slice: %v", x, y, x+y,
+		"One sum of sl1 slice: %v\n" +
+		"The other sum of sl1 slice: %v\n" +
+		"Total sum of sl1 slice: %v\n", sum1, sum2, sum1 + sum2,
 	)
+
+	// Buffered channels
+	ch2 := make(chan string, 2)
+	ch2 <- "say"
+	ch2 <- "something"
+	// This will cause a deadlock because buffer is filled
+	//ch2 <- 3
+	fmt.Println("Retrieving from buffered channel ch2:", <-ch2)
+	fmt.Println("Retrieving from buffered channel ch2:", <-ch2)
+	// An extra retrieval from an empty buffer will
+	// also cause a deadlock
+	// fmt.Println(<-ch2)
 
 	//
 
