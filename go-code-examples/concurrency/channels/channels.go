@@ -45,6 +45,20 @@ func sum(sl []int, ch chan int) {
 	ch <- sum
 }
 
+// Function fibonacci is used to demonstrate the combination
+// of close - range functionalities. n is the number of values
+// the receiver will request (the capacity of channel ch3)
+func fibonacci(n int, ch chan int) {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		// Send a value to the channel
+		ch <- x
+		x, y = y, x+y
+	}
+	// Close the channel after sending all the values to be sent
+	close(ch)
+}
+
 func main() {
 	// Simple demonstration of channel functionality
 	// Create a slice and a channel
@@ -75,6 +89,17 @@ func main() {
 	// An extra retrieval from an empty buffer will
 	// also cause a deadlock
 	// fmt.Println(<-ch2)
+
+	// Range - Close demonstration
+	ch3 := make(chan int, 10)
+	// Initiate a goroutine running fibonacci function
+	go fibonacci(cap(ch3), ch3)
+	// Consume all the values inside the ch3 channel with
+	// a range loop
+	fmt.Printf("A fibonacci sequence with %v values:\n", cap(ch3))
+	for i := range ch3 {
+		fmt.Println(i)
+	}
 
 	//
 
