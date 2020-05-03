@@ -30,7 +30,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // Function sum sums all the elements of the input slice,
 // then sends the computed sum value inside a channel that
@@ -45,10 +48,10 @@ func sum(sl []int, ch chan int) {
 	ch <- sum
 }
 
-// Function fibonacci is used to demonstrate the combination
+// Function fibonacci1 is used to demonstrate the combination
 // of close - range functionalities. n is the number of values
 // the receiver will request (the capacity of channel ch3)
-func fibonacci(n int, ch chan int) {
+func fibonacci1(n int, ch chan int) {
 	x, y := 0, 1
 	for i := 0; i < n; i++ {
 		// Send a value to the channel
@@ -57,6 +60,29 @@ func fibonacci(n int, ch chan int) {
 	}
 	// Close the channel after sending all the values to be sent
 	close(ch)
+}
+
+// Function fibonacci2 is used to showcase the simple
+// select with multiple case. It takes two integer channels as arguments
+func fibonacci2(ch, quit chan int) {
+	x, y := 0, 1
+	// The cases evaluation inside the select statement
+	// should always be happening, so the select-cases
+	// are surrounded by an infinite for loop
+	for {
+		select {
+			// If ch is ready to send values inside it, execute this case
+			case ch <- x:
+				x, y = y, x+y
+			// If quit is ready to receive values, execute this case
+			case <-quit:
+				return
+			// If no other case is ready, the default case is executed
+			default:
+				fmt.Println("Inside the default case!")
+				time.Sleep(100 * time.Millisecond)
+		}
+	}
 }
 
 func main() {
@@ -93,14 +119,27 @@ func main() {
 	// Range - Close demonstration
 	ch3 := make(chan int, 10)
 	// Initiate a goroutine running fibonacci function
-	go fibonacci(cap(ch3), ch3)
+	go fibonacci1(cap(ch3), ch3)
 	// Consume all the values inside the ch3 channel with
 	// a range loop
-	fmt.Printf("A fibonacci sequence with %v values:\n", cap(ch3))
+	fmt.Printf("A fibonacci sequence with %v values (range-close):\n", cap(ch3))
 	for i := range ch3 {
 		fmt.Println(i)
 	}
 
-	//
-
+	// Select inside a goroutine
+	ch4, quit := make(chan int), make(chan int)
+	// Create a goroutine with a function literal that
+	// receives values from ch4 inside a for loop
+	fmt.Println("A fibonacci sequence with 10 values (select):")
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-ch4)
+		}
+		// If the loop is completed, signal to the quit channel
+		// by sending a value into it, to return the fibonacci2 function
+		quit <- 0
+	}()
+	// Run the fibonacci2 function as a normal function
+	fibonacci2(ch4, quit)
 }
