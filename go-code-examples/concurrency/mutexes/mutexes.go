@@ -30,8 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// Type SafeCounter is safe to use concurrently
+type SafeCounter struct {
+	safeMap map[string]int
+	mux     sync.Mutex
+}
+
+// Method Inc increments the counter for the given key
+func (sc *SafeCounter) Inc(key string) {
+	// Lock so only one goroutine at a time can access the map
+	sc.mux.Lock()
+	// Increment the value safely
+	sc.safeMap[key]++
+	fmt.Println(sc.safeMap[key])
+	// Unlock to give access to another goroutine
+	sc.mux.Unlock()
+	//fmt.Println(sc.Value(key))
+}
+
+// Method Value returns the current value of the counter for the given key
+func (sc *SafeCounter) Value(key string) int {
+	// Lock so only one goroutine at a time can access the map
+	sc.mux.Lock()
+	// Unlock with defer to ensure that the mutex will be unlocked
+	// after the function returns
+	defer sc.mux.Unlock()
+	return sc.safeMap[key]
+}
 
 func main() {
-	fmt.Println("mutexes")
+	sc := SafeCounter{safeMap: make(map[string]int)}
+	for i := 0; i < 100; i++ {
+		go sc.Inc("first_key")
+	}
+	// Delay the execution of the main goroutine to start
+	// scheduling the goroutines that increment the map's value
+	time.Sleep(time.Second)
+	fmt.Println(
+		"The final value of the first_key is:",
+		sc.Value("first_key"),
+	)
 }
