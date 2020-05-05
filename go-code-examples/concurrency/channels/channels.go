@@ -91,7 +91,7 @@ func main() {
 	sl1 := []int{1, 2, 3, 4, 5, 6}
 	ch1 := make(chan int)
 	// Create 2 goroutines, where each one computes
-	// the sum of the half of the s slice
+	// the sum of the half of the sl1 slice
 	go sum(sl1[:len(sl1)/2], ch1)
 	go sum(sl1[len(sl1)/2:], ch1)
 	// Receive and assign the computed sums into 2 variables.
